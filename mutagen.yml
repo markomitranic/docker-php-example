@@ -1,0 +1,34 @@
+sync:
+  defaults:
+    mode: "two-way-resolved"
+    flushOnCreate: true
+    ignore:
+      vcs: true
+  php-example-src:
+    alpha: "php/src"
+    beta: "docker://php_example/app/src"
+    ignore:
+      paths:
+        - ".idea"
+        - "node_modules"
+        - "php/src/vendor"
+
+# Set up the service and any volumes before creating sessions.
+beforeCreate:
+  - docker-compose -f docker-compose.yml -f docker-compose-dev.yml up --build --detach
+
+# Set up the main services after creating sessions. At this point, sessions will
+# have been established and code pushed to the shared volume.
+# After this is done, we can start up the deployment scripts.
+afterCreate:
+  - docker-compose -f docker-compose.yml -f docker-compose-dev.yml up --build --detach
+  - docker-compose exec php-example composer install
+
+# Tear down all services and remove the code volume after terminating sessions.
+afterTerminate:
+  - docker-compose -f docker-compose.yml -f docker-compose-dev.yml down --remove-orphans || true
+
+
+# Define common utility commands.
+commands:
+  logs: docker-compose -f docker-compose.yml -f docker-compose-dev.yml logs --follow
