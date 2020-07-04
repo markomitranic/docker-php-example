@@ -3,6 +3,9 @@ version: "3.7"
 services:
 
   php-example:
+    build:
+      context: ./php
+      target: base
     volumes:
       - php_example_src:/app/src
       - php_example_composer:/app/src/vendor
