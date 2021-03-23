@@ -1,5 +1,5 @@
 # Example of a containerised PHP app with mutagen.io transport layer
-Mutagen allows us speedy volume sync in dev environment. Read more here.
+Mutagen allows us speedy volume sync in dev environment. Read more [here](https://medium.com/homullus/beating-some-performance-into-docker-for-mac-f5d1e732032c).
 
 ## Usage
 Simply run `./deploy_dev.sh` or `./deploy_prod.sh`. Visit http://localhost:8080.
